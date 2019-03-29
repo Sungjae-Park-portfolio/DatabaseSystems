@@ -1,0 +1,27 @@
+{
+  "name": "lab-8-uwu",
+  "version": "1.0.0",
+  "description": "Be sure to get enough REST",
+  "main": "express.js",
+  "dependencies": {
+    "angular": "^1.7.7",
+    "angularjs": "0.0.1",
+    "bluebird": "^3.5.3",
+    "express": "^4.16.4",
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UMM-CSci-4453-S19/lab-8-uwu.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UMM-CSci-4453-S19/lab-8-uwu/issues"
+  },
+  "homepage": "https://github.com/UMM-CSci-4453-S19/lab-8-uwu#readme"
+}

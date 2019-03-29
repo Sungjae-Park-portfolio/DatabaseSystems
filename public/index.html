@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>Cash Register</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
+    <script src="click.js"></script>
+</head>
+<body ng-app="buttons" ng-controller="buttonCtrl" >
+<div class="container-fluid">
+    <h1>Cash Register (with buttons)</h1>
+    <div id="buttons" >
+       <div ng-repeat="button in buttons">
+         <div style="position:absolute;left:{{button.buttonLeft}}px;top:{{button.buttonTop}}px"><button id="{{button.itemID}}" ng-click="buttonClick($event,'button.itemID')" >{{button.itemName}}</button></div>
+       </div>
+       <div style="position:fixed;height:50px;bottom:0px;left:0px;right:0px;margin-bottom:0px"} ng-show="errorMessage != ''">
+          <div class="col-sm-12">
+           <h3 class="text-danger">{{errorMessage}}</h3>
+         </div>
+       </div>
+     </div>
+</div>
+
+<div id="itemPriceList" class="itemPriceList">
+    <h3>Items list</h3>
+    <div id="itemList" class="itemList">
+        <table class="itemTable">
+            <tr ng-repeat="item in buttons" ng-if="item.amount > 0" ng-click="itemDelete(item.itemID)"  id="{{item.itemID}}">
+                    <td>{{item.itemName}}</td><td class="amountCell">{{item.amount}}</td><td class="priceCell">${{item.price * item.amount}}</td>
+            </tr>
+        </table>
+    </div>
+    <div id="totalRow" class="totalRow">
+        <span class="totalHeader">Total:</span><span class="totalValue">${{getTheSum(buttons)}}</span>
+    </div>
+</div>
+
+</div>
+
+
+</body>
+
+
+
+</html>
