@@ -38,4 +38,14 @@ app.get("/click", function(req, res){
     });
 });
 
+app.get("/login/:username/:password", function(req, res){
+    var user = req.param('username');
+    var pass = req.param('password');
+    var sql = 'SELECT * FROM MinecraftDB.users WHERE name = "' + user + '" && password = "' + pass + '"';
+    result = db.query(sql);
+    result.then(function(rows){
+        res.send(rows);
+    });
+});
+
 app.listen(port);

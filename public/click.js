@@ -11,9 +11,11 @@ function ButtonCtrl($scope, buttonApi) {
     $scope.buttonClick = buttonClick;
     $scope.getTheSum = getTheSum;
     $scope.itemDelete = itemDelete;
+    $scope.activeUser;
 
-
-
+    $scope.login = login;
+    $scope.username;
+    $scope.password;
 
     var loading = false;
 
@@ -72,6 +74,22 @@ function ButtonCtrl($scope, buttonApi) {
         return sum;
     }
 
+    function login(username, password){
+        console.log("loggin ");
+        buttonApi.login(username, password)
+            .success(function (data) {
+                if(data[0]){
+                    $scope.activeUser = data[0].userId;
+                }else{
+                    $scope.activeUser = null;
+                }
+
+            })
+            .error(function () {
+                $scope.errorMessage = "Our uncrackable login server has failed!?";
+            });
+    }
+
 }
 
 function buttonApi($http, apiUrl) {
@@ -86,6 +104,10 @@ function buttonApi($http, apiUrl) {
         },
         itemDelete: function (id) {
             var url = apiUrl + '/delete?id=' + id;
+            return $http.get(url);
+        },
+        login: function (username, password){
+            var url = apiUrl + '/login/' + username + "/" + password;
             return $http.get(url);
         }
     };
