@@ -42,9 +42,26 @@ app.get("/login/:username/:password", function(req, res){
     var user = req.param('username');
     var pass = req.param('password');
     var sql = 'SELECT * FROM MinecraftDB.users WHERE name = "' + user + '" && password = "' + pass + '"';
-    result = db.query(sql);
+    var result = db.query(sql);
     result.then(function(rows){
         res.send(rows);
+    });
+});
+
+app.get("/void", function(req, res){
+    var sql = 'UPDATE items SET amount = 0';
+    var result = db.query(sql);
+    result.then(function(rows){
+        res.send(true);
+    });
+});
+
+app.get("/sale/:start/:end/:id", function(req, res){
+    var sql = 'INSERT INTO archive (start, end, userId) VALUES (\'' + req.param("start") +'\',\'' + req.param("end") + '\',' + req.param("id") +')';
+    console.log(sql);
+    var result = db.query(sql);
+    result.then(function(rows){
+        res.send(true);
     });
 });
 

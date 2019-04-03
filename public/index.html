@@ -7,9 +7,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
     <script src="click.js"></script>
 </head>
-<body ng-app="buttons" ng-controller="buttonCtrl" >
+<bdivody ng-app="buttons" ng-controller="buttonCtrl" >
 
 <div ng-if="activeUser">
+    <div class="container-fluid">
+        <button id="logout" ng-click="logout()">Logout</button>
+        <button id="sale" ng-click="sale()">Sale</button>
+        <button id="void" ng-click="voidSale()">Void</button>
+    </div>
     <div class="container-fluid">
         <h1>Cash Register (with buttons)</h1>
         <div id="buttons" >
@@ -29,7 +34,7 @@
         <div id="itemList" class="itemList">
             <table class="itemTable">
                 <tr ng-repeat="item in buttons" ng-if="item.amount > 0" ng-click="itemDelete(item.itemID)"  id="{{item.itemID}}">
-                    <td>{{item.itemName}}</td><td class="amountCell">{{item.amount}}</td><td class="priceCell">${{item.price * item.amount}}</td>
+                    <td>{{item.itemName}}</td><td class="amountCell">{{item.amount}}</td><td class="priceCell">{{(item.price * item.amount) | currency}}</td>
                 </tr>
             </table>
         </div>
@@ -47,7 +52,7 @@
 </div>
 
 
-</body>
+</bdivody>
 
 
 

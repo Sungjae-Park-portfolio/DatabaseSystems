@@ -12,8 +12,12 @@ function ButtonCtrl($scope, buttonApi) {
     $scope.getTheSum = getTheSum;
     $scope.itemDelete = itemDelete;
     $scope.activeUser;
+    $scope.startTime = 0;
 
+    $scope.logout = logout;
     $scope.login = login;
+    $scope.voidSale = voidSale;
+    $scope.sale = sale;
     $scope.username;
     $scope.password;
 
@@ -45,7 +49,7 @@ function ButtonCtrl($scope, buttonApi) {
                 refreshButtons();
             })
             .error(function () {
-                $scope.errorMessage = "you cannot delete //make sure the buttons are loadedme hahaha";
+                $scope.errorMessage = "you cannot delete";
             })
 
 
@@ -54,6 +58,9 @@ function ButtonCtrl($scope, buttonApi) {
 
     function buttonClick($event) {
         $scope.errorMessage = '';
+        if($scope.startTime === 0){
+            $scope.startTime = Date.now();
+        }
         buttonApi.clickButton($event.target.id)
             .success(function () {
                 refreshButtons();
@@ -75,7 +82,6 @@ function ButtonCtrl($scope, buttonApi) {
     }
 
     function login(username, password){
-        console.log("loggin ");
         buttonApi.login(username, password)
             .success(function (data) {
                 if(data[0]){
@@ -88,6 +94,18 @@ function ButtonCtrl($scope, buttonApi) {
             .error(function () {
                 $scope.errorMessage = "Our uncrackable login server has failed!?";
             });
+    }
+    function logout(){
+        console.log($scope.activeUser);
+        $scope.activeUser = null;
+    }
+    function sale(){
+        buttonApi.sale($scope.startTime, Date.now(), $scope.activeUser);
+        refreshButtons();
+    }
+    function voidSale(){
+        buttonApi.voidSale();
+        refreshButtons();
     }
 
 }
@@ -109,12 +127,17 @@ function buttonApi($http, apiUrl) {
         login: function (username, password){
             var url = apiUrl + '/login/' + username + "/" + password;
             return $http.get(url);
+        },
+        voidSale: function (){
+            var url = apiUrl + '/void';
+            return $http.get(url);
+        },
+        sale: function (startTime, endTime, userID){
+            var url = apiUrl + '/sale/' + new Date(startTime).toJSON() + "/" + new Date(endTime).toJSON() + "/" + userID;
+            return $http.get(url);
         }
     };
 }
-
-
-
 
 
 
