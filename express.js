@@ -61,7 +61,16 @@ app.get("/sale/:start/:end/:id", function(req, res){
     console.log(sql);
     var result = db.query(sql);
     result.then(function(rows){
-        res.send(true);
+        var tid = rows.insertId;
+        var sql = "INSERT INTO transaction (itemID, amount, unitPrice, tId) SELECT itemID, amount, price as unitPrice, " + tid + " as tId FROM items WHERE amount > 0;";
+        var result = db.query(sql);
+        result.then(function (rows){
+            var sql = 'UPDATE items SET amount = 0';
+            var result = db.query(sql);
+            result.then(function(rows) {
+                res.send(rows);
+            });
+        });
     });
 });
 
