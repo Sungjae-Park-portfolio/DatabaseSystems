@@ -20,6 +20,8 @@ function ButtonCtrl($scope, buttonApi) {
     $scope.sale = sale;
     $scope.username;
     $scope.password;
+    $scope.receipt = null;
+    $scope.getReceipt = getReceipt;
 
     var loading = false;
 
@@ -37,6 +39,20 @@ function ButtonCtrl($scope, buttonApi) {
             })
             .error(function () {
                 $scope.errorMessage = "Unable to load Buttons:  Database request failed";
+                loading = false;
+            });
+    }
+
+    function getReceipt() {
+        loading = true;
+        $scope.errorMessage = '';
+        buttonApi.getButtons()
+            .success(function (data) {
+                $scope.receipt = data;
+                loading = false;
+            })
+            .error(function () {
+                $scope.errorMessage = "Unable to load Receipt:  Database request failed";
                 loading = false;
             });
     }
@@ -100,14 +116,17 @@ function ButtonCtrl($scope, buttonApi) {
         $scope.activeUser = null;
     }
     function sale(){
+        $scope.receipt = getReceipt()
         buttonApi.sale($scope.startTime, Date.now(), $scope.activeUser);
+        $scope.receipt = angular.element( document.querySelector( "#itemList"));
+        $scope.startTime = 0;
         refreshButtons();
     }
     function voidSale(){
         buttonApi.voidSale();
+        $scope.startTime = 0;
         refreshButtons();
     }
-
 }
 
 function buttonApi($http, apiUrl) {

@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
     <script src="click.js"></script>
 </head>
-<bdivody ng-app="buttons" ng-controller="buttonCtrl" >
+<body ng-app="buttons" ng-controller="buttonCtrl" >
 
 <div ng-if="activeUser">
     <div class="container-fluid">
@@ -39,7 +39,18 @@
             </table>
         </div>
         <div id="totalRow" class="totalRow">
-            <span class="totalHeader">Total:</span><span class="totalValue">${{getTheSum(buttons)}}</span>
+            <span class="totalHeader">Total:</span><span class="totalValue">{{getTheSum(buttons) | currency}}</span>
+        </div>
+    </div>
+    <div id="receipt" class="itemList" ng-if="receipt">
+        <h2>Receipt</h2>
+        <table class="itemTable">
+            <tr ng-repeat="item in receipt" ng-if="item.amount > 0" ng-click="itemDelete(item.itemID)"  id="{{item.itemID}}">
+                <td>{{item.itemName}}</td><td class="amountCell">{{item.amount}}</td><td class="priceCell">{{(item.price * item.amount) | currency}}</td>
+            </tr>
+        </table>
+        <div id="receiptRow" class="totalRow">
+            <span class="totalHeader">Total:</span><span class="totalValue">{{getTheSum(receipt) | currency}}</span>
         </div>
     </div>
 </div>
@@ -52,7 +63,7 @@
 </div>
 
 
-</bdivody>
+</body>
 
 
 
