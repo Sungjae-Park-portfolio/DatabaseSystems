@@ -1,7 +1,7 @@
 var mysql=require('mysql'),
     credentials=require('./credentials.json');
 
-credentials.database = "MinecraftDB";
+credentials.database = "busy_team";
 
 var Promise = require('bluebird');
 var using = Promise.using;

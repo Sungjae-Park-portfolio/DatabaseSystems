@@ -24,7 +24,7 @@ app.post('/', function(req, res, next) {
 
 app.use(express.static(__dirname + '/public'));
 app.get("/items",function(req,res){
-    var sql = 'SELECT * FROM MinecraftDB.items;';
+    var sql = 'SELECT * FROM busy_team.Table_Order;';
     result = db.query(sql);
     result.then(function(rows){
         console.log(rows);
@@ -34,7 +34,7 @@ app.get("/items",function(req,res){
 
 app.get("/delete",function(req,res){
     var id = req.param('id');
-    var sql = 'UPDATE MinecraftDB.items SET amount = amount - 1 WHERE itemID=' + id + ' AND amount > 0;';
+    var sql = 'UPDATE busy_team.Table_Order SET amount = amount - 1 WHERE Order_ID=' + id + ' AND amount > 0;';
     console.log(sql);
     result = db.query(sql);
     result.then(function(rows){
@@ -45,7 +45,7 @@ app.get("/delete",function(req,res){
 
 app.get("/click", function(req, res){
     var id = req.param('id');
-    var sql = 'UPDATE MinecraftDB.items SET amount = amount + 1 WHERE itemID =' + id + ";";
+    var sql = 'UPDATE busy_team.Table_Order SET amount = amount + 1 WHERE Order_ID =' + id + ";";
     result = db.query(sql);
     result.then(function(rows){
         console.log(rows);
@@ -56,7 +56,7 @@ app.get("/click", function(req, res){
 app.get("/login/:username/:password", function(req, res){
     var user = req.param('username');
     var pass = req.param('password');
-    var sql = 'SELECT * FROM MinecraftDB.users WHERE name = "' + user + '" && password = "' + pass + '"';
+    var sql = 'SELECT * FROM busy_team.login WHERE user_ID = "' + user + '" && use_PSWD = "' + pass + '"';
     var result = db.query(sql);
     result.then(function(rows){
         res.send(rows);
@@ -64,7 +64,7 @@ app.get("/login/:username/:password", function(req, res){
 });
 
 app.get("/void", function(req, res){
-    var sql = 'UPDATE items SET amount = 0';
+    var sql = 'UPDATE Table_Order SET amount = 0';
     var result = db.query(sql);
     result.then(function(rows){
         res.send(true);
