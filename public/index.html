@@ -12,11 +12,11 @@
 <div ng-if="activeUser">
     <div class="container-fluid">
         <button id="logout" ng-click="logout()">Logout</button>
-        <button id="sale" ng-click="sale()">Sale</button>
-        <button id="void" ng-click="voidSale()">Void</button>
+        <button id="sale" ng-click="sale()">Already decided!</button>
+        <button id="void" ng-click="voidSale()">Empty movie list</button>
     </div>
     <div class="container-fluid">
-        <h1>Cash Register (with buttons)</h1>
+        <h1>Choose your movie here:</h1>
         <div id="buttons" >
             <div ng-repeat="button in buttons">
                 <div style="position:absolute;left:{{button.buttonLeft}}px;top:{{button.buttonTop}}px"><button id="{{button.itemID}}" ng-click="buttonClick($event,'button.itemID')" >{{button.itemName}}</button></div>
@@ -30,7 +30,7 @@
     </div>
 
     <div id="itemPriceList" class="itemPriceList">
-        <h3>Items list</h3>
+        <h3>Movie order list</h3>
         <div id="itemList" class="itemList">
             <table class="itemTable">
                 <tr ng-repeat="item in buttons" ng-if="item.amount > 0" ng-click="itemDelete(item.itemID)"  id="{{item.itemID}}">
