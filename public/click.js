@@ -1,10 +1,10 @@
 angular.module('buttons', [])
     .controller('buttonCtrl', ButtonCtrl)
     .factory('buttonApi', buttonApi)
-    .constant('apiUrl', 'http://localhost:1337'); // CHANGED for the lab 2017!
+    .constant('apiUrl', 'http://localhost:1337');
 
 function ButtonCtrl($scope, buttonApi) {
-    $scope.buttons = []; //Initially all was still
+    $scope.buttons = [];
     $scope.errorMessage = '';
     $scope.isLoading = isLoading;
     $scope.refreshButtons = refreshButtons;
