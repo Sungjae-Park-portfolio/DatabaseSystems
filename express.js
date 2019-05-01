@@ -53,15 +53,16 @@ app.get("/click", function(req, res){
     });
 });
 
-app.get("/login/:username/:password", function(req, res){
-    var user = req.param('username');
-    var pass = req.param('password');
-    var sql = 'SELECT * FROM busy_team.login WHERE user_ID = "' + user + '" && use_PSWD = "' + pass + '"';
+app.get("/login/:user_ID/:user_PSWD", function(req, res){
+    var user = req.param('user_ID');
+    var pass = req.param('user_PSWD');
+    var sql = 'SELECT * FROM busy_team.login WHERE user_ID = "' + user + '" && user_PSWD = "' + pass + '"';
     var result = db.query(sql);
     result.then(function(rows){
         res.send(rows);
     });
 });
+
 
 app.get("/void", function(req, res){
     var sql = 'UPDATE Table_Order SET amount = 0';
@@ -88,5 +89,4 @@ app.get("/sale/:start/:end/:id", function(req, res){
         });
     });
 });
-
 app.listen(port);
