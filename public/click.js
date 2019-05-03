@@ -12,7 +12,6 @@ function ButtonCtrl($scope, buttonApi) {
     $scope.getTheSum = getTheSum;
     $scope.itemDelete = itemDelete;
     $scope.activeUser;
-    $scope.startTime = 0;
 
     $scope.logout = logout;
     $scope.login = login;
@@ -74,19 +73,19 @@ function ButtonCtrl($scope, buttonApi) {
 
     function buttonClick($event) {
         $scope.errorMessage = '';
-        if($scope.startTime === 0){
-            $scope.startTime = Date.now();
-        }
+
         buttonApi.clickButton($event.target.id)
             .success(function () {
                 refreshButtons();
             })
             .error(function () {
                 $scope.errorMessage = "Unable click";
-            });//make sure the buttons are loaded
+            });
+        refreshButtons();
     }
 
-    refreshButtons();
+
+
 
 
     function getTheSum(list) {
@@ -117,14 +116,12 @@ function ButtonCtrl($scope, buttonApi) {
     }
     function sale(){
         $scope.receipt = getReceipt()
-        buttonApi.sale($scope.startTime, Date.now(), $scope.activeUser);
         $scope.receipt = angular.element( document.querySelector( "#itemList"));
-        $scope.startTime = 0;
+
         refreshButtons();
     }
     function voidSale(){
         buttonApi.voidSale();
-        $scope.startTime = 0;
         refreshButtons();
     }
 }
