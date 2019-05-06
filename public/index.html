@@ -17,10 +17,12 @@
     </div>
     <div class="container-fluid">
         <h1>Choose your movie here:</h1>
-        <div id="buttons" >
-            <div ng-repeat="button in buttons">
-                <div style="position:absolute;left:{{button.buttonLeft}}px;top:{{button.buttonTop}}px"><button id="{{button.itemID}}" ng-click="buttonClick($event,'button.itemID')" >{{button.itemName}}</button></div>
-            </div>
+        <div id="scheduleList"  class="scheduleList">
+            <table class="scheduleTable">
+                <tr ng-repeat="item in buttons"  id="{{item.Schedule_ID}}">
+                    <td>{{item.Movie_ID}}</td><td >{{item.Hall_ID}}</td><td >$ {{item.Schedule_Price}}</td><td >{{item.Schedule_BeginDateTime}}</td><button ng-click="buttonClick($event,'button.')">Select seats</button>
+                </tr>
+            </table>
             <div style="position:fixed;height:50px;bottom:0px;left:0px;right:0px;margin-bottom:0px"} ng-show="errorMessage != ''">
                 <div class="col-sm-12">
                     <h3 class="text-danger">{{errorMessage}}</h3>

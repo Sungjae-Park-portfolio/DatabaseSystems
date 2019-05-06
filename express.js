@@ -3,6 +3,7 @@ var express=require('express'),
     credentials=require('./credentials.json'),
     app = express(),
     port = process.env.PORT || 1337,
+    database = 'busy_team',
     db = require('./database.js');
 
 
@@ -23,8 +24,8 @@ app.post('/', function(req, res, next) {
 
 
 app.use(express.static(__dirname + '/public'));
-app.get("/items",function(req,res){
-    var sql = 'SELECT * FROM MinecraftDB.items;';
+app.get("/schedule",function(req,res){
+    var sql = 'SELECT * FROM ' + database + '.Table_Schedule;';
     result = db.query(sql);
     result.then(function(rows){
         console.log(rows);
@@ -56,7 +57,7 @@ app.get("/click", function(req, res){
 app.get("/login/:username/:password", function(req, res){
     var user = req.param('username');
     var pass = req.param('password');
-    var sql = 'SELECT * FROM MinecraftDB.users WHERE name = "' + user + '" && password = "' + pass + '"';
+    var sql = 'SELECT * FROM ' + database + '.login WHERE user_ID = "' + user + '" && user_PSWD = "' + pass + '"';
     var result = db.query(sql);
     result.then(function(rows){
         res.send(rows);

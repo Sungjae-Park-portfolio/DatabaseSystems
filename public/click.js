@@ -101,10 +101,11 @@ function ButtonCtrl($scope, buttonApi) {
         buttonApi.login(username, password)
             .success(function (data) {
                 if(data[0]){
-                    $scope.activeUser = data[0].userId;
+                    $scope.activeUser = data[0].user_ID;
                 }else{
                     $scope.activeUser = null;
                 }
+                console.log($scope.activeUser);
 
             })
             .error(function () {
@@ -132,7 +133,7 @@ function ButtonCtrl($scope, buttonApi) {
 function buttonApi($http, apiUrl) {
     return {
         getButtons: function () {
-            var url = apiUrl + '/items';
+            var url = apiUrl + '/schedule';
             return $http.get(url);
         },
         clickButton: function (id) {
