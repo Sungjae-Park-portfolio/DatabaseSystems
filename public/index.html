@@ -2,14 +2,14 @@
 <html>
 <head lang="en">
     <meta charset="utf-8">
-    <title>Cash Register</title>
+    <title>Asian Ticket Office</title>
     <link rel="stylesheet" type="text/css" href="index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
     <script src="click.js"></script>
 </head>
 <body ng-app="buttons" ng-controller="buttonCtrl" >
 
-<div ng-if="activeUser">
+<div ng-if="!activeUser">
     <div class="container-fluid">
         <button id="logout" ng-click="logout()">Logout</button>
         <button id="sale" ng-click="sale()">Already decided!</button>
@@ -18,11 +18,24 @@
     <div class="container-fluid">
         <h1>Choose your movie here:</h1>
         <div id="scheduleList"  class="scheduleList">
-            <table class="scheduleTable">
+            <div class="scheduleList" ng-repeat="movie in movieList">
+                <p>
+                    <span>
+                        <img ng-src="{{movie.Movie_Url}}" style="width:150px">
+                    </span>
+                    <span>
+                        {{movie.Movie_Name}}
+                        <div  style="display:inline-block" name="{{ movie.Movie_ID }}">
+                            {{ getTimeList(movie.Movie_ID) }} world
+                        </div>
+                    </span>
+                </p>
+            </div>
+            <!-- <table class="scheduleTable">
                 <tr ng-repeat="item in buttons"  id="{{item.Schedule_ID}}">
                     <td>{{item.Movie_ID}}</td><td >{{item.Hall_ID}}</td><td >$ {{item.Schedule_Price}}</td><td >{{item.Schedule_BeginDateTime}}</td><button ng-click="buttonClick($event,'button.')">Select seats</button>
                 </tr>
-            </table>
+            </table> -->
             <div style="position:fixed;height:50px;bottom:0px;left:0px;right:0px;margin-bottom:0px"} ng-show="errorMessage != ''">
                 <div class="col-sm-12">
                     <h3 class="text-danger">{{errorMessage}}</h3>
@@ -56,7 +69,7 @@
         </div>
     </div>
 </div>
-<div ng-if="!activeUser">
+<div ng-if="activeUser">
     <ng-form>
         <label>Username: <input type="text" ng-model="username"/></label>
         <label>Password: <input type="password" ng-model="password"/></label>

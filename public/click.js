@@ -5,8 +5,12 @@ angular.module('buttons', [])
 
 function ButtonCtrl($scope, buttonApi) {
     $scope.buttons = [];
+    $scope.movieList = [];
+    $scope.timeList = [];
     $scope.errorMessage = '';
     $scope.isLoading = isLoading;
+    $scope.getMovieList = getMovieList;
+    $scope.getTimeList = getTimeList;
     $scope.refreshButtons = refreshButtons;
     $scope.buttonClick = buttonClick;
     $scope.getTheSum = getTheSum;
@@ -27,6 +31,35 @@ function ButtonCtrl($scope, buttonApi) {
 
     function isLoading() {
         return loading;
+    }
+
+    function getMovieList() {
+        loading = true;
+        $scope.errorMessage = '';
+        buttonApi.getMovies()
+            .success(function (data) {
+                $scope.movieList = data;
+                loading = false;
+                console.log($scope.movieList + "hello");
+            })
+            .error(function () {
+                $scope.errorMessage = "Unable to load movieList: Databases request failed";
+                loading = false;
+            })
+    }
+
+    function getTimeList(movieID) {
+        loading = true;
+        $scope.errorMessage = '';
+        buttonApi.getTimes(movieID)
+            .success(function (data) {
+                $scope.timeList = data;
+                loading = false;
+            })
+            .error(function () {
+                $scope.errorMessage = "Unable to load movieList: Databases request failed";
+                loading = false;
+            })
     }
 
     function refreshButtons() {
@@ -67,9 +100,6 @@ function ButtonCtrl($scope, buttonApi) {
             .error(function () {
                 $scope.errorMessage = "you cannot delete";
             })
-
-
-
     }
 
     function buttonClick($event) {
@@ -87,7 +117,8 @@ function ButtonCtrl($scope, buttonApi) {
     }
 
     refreshButtons();
-
+    getMovieList()
+    //getTimeList(1);
 
     function getTheSum(list) {
         var sum = 0;
@@ -105,7 +136,6 @@ function ButtonCtrl($scope, buttonApi) {
                 }else{
                     $scope.activeUser = null;
                 }
-                console.log($scope.activeUser);
 
             })
             .error(function () {
@@ -132,6 +162,14 @@ function ButtonCtrl($scope, buttonApi) {
 
 function buttonApi($http, apiUrl) {
     return {
+        getMovies: function () {
+            var url = apiUrl + '/movieList';
+            return $http.get(url);
+        },
+        getTimes: function (movieID) {
+            var url = apiUrl + '/timeList/' + movieID;
+            return $http.get(url);
+        },
         getButtons: function () {
             var url = apiUrl + '/schedule';
             return $http.get(url);

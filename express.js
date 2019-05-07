@@ -24,6 +24,25 @@ app.post('/', function(req, res, next) {
 
 
 app.use(express.static(__dirname + '/public'));
+app.get("/movieList",function(req,res){
+    var sql = 'SELECT DISTINCT Movie_ID, Movie_Name, Movie_Url FROM ' + database + '.Table_Movie;';
+    result = db.query(sql);
+    result.then(function(rows){
+        console.log(rows);
+        res.send(rows);
+    });
+});
+
+app.get("/timeList/:movieID",function(req,res){
+    var movieId = req.param('movieID');
+    var sql = 'SELECT Schedule_ID, Movie_ID, Hall_ID, Schedule_BeginDateTime FROM ' + database + '.Table_Schedule where Movie_ID = ' + movieId + ';';
+    result = db.query(sql);
+    result.then(function(rows){
+        console.log(rows);
+        res.send(rows);
+    });
+});
+
 app.get("/schedule",function(req,res){
     var sql = 'SELECT * FROM ' + database + '.Table_Schedule;';
     result = db.query(sql);
@@ -54,7 +73,7 @@ app.get("/click", function(req, res){
     });
 });
 
-app.get("/login/:username/:password", function(req, res){
+app.get("/login/:username/:password", function(req, res){m
     var user = req.param('username');
     var pass = req.param('password');
     var sql = 'SELECT * FROM ' + database + '.login WHERE user_ID = "' + user + '" && user_PSWD = "' + pass + '"';
