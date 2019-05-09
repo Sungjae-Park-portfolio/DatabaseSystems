@@ -52,9 +52,10 @@ app.get("/cart",function(req,res){
     });
 });
 
-app.get("/delete",function(req,res){
-    var id = req.param('id');
-    var sql = 'UPDATE MinecraftDB.items SET amount = amount - 1 WHERE itemID=' + id + ' AND amount > 0;';
+app.get("/delete/:scheid/:seatid",function(req,res){
+    var scheid = req.param('scheid');
+    var seatid = req.param('seatid');
+    var sql = 'DELETE FROM ' + database + '.Table_Cart WHERE Schedule_ID=' + scheid + ' AND Seat_ID=' + seatid + ';';
     console.log(sql);
     result = db.query(sql);
     result.then(function(rows){

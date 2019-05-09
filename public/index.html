@@ -52,7 +52,7 @@
         <h3>Movie Ticket Cart</h3>
         <div id="itemList" class="itemList">
             <table class="itemTable">
-                <tr ng-repeat="item in buttons"/> <!--ng-if="item.amount > 0" ng-click="itemDelete(item.itemID)"  id="{{item.itemID}}" -->
+                <tr ng-repeat="item in buttons" ng-click="itemDelete(item.Schedule_ID, item.Seat_ID)"  id="{{item.itemID}}" >
                     <td>{{item.Movie_Name}}</td><td class="amountCell">{{item.amount}}</td><td class="priceCell">{{(item.price * item.amount) | currency}}</td>
                 </tr>
             </table>
