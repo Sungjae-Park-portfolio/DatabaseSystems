@@ -13,6 +13,9 @@ function ButtonCtrl($scope, buttonApi) {
     $scope.getMovieList = getMovieList;
     $scope.getTimeList = getTimeList;
     $scope.movieTime = movieTime;
+    $scope.getSeat = getSeat;
+    $scope.getRow = getRow;
+    $scope.getColumn = getColumn;
     $scope.getTimeByHours = getTimeByHours;
     $scope.refreshButtons = refreshButtons;
     $scope.buttonClick = buttonClick;
@@ -105,6 +108,38 @@ function ButtonCtrl($scope, buttonApi) {
                 $scope.errorMessage = "Unable to load Buttons:  Database request failed";
                 loading = false;
             });
+    }
+
+    function getSeat(seatID) {
+        if (seatID <=9) {
+            return getRow(Math.floor(seatID/3)) + " row " + getColumn(seatID%3) + " column at hall 1";
+        }
+        if (seatID > 9 && seatID <= 18) {
+            return getRow(Math.floor((seatID-9)/3)) + " row " + getColumn((seatID-9)%3) + " column at hall 2";
+        }
+        else {
+            return getRow(Math.floor((seatID-18)/3)) + " row " + getColumn((seatID-18)%3) + " column at hall 3";
+        }
+    }
+
+    function getRow(row) {
+        if (row == 0) {
+            return "A";
+        }
+        if (row == 1) {
+            return "B";
+        }
+        if (row == 3) {
+            return "C";
+        }
+    }
+
+    function getColumn(column) {
+        if (column == 0) {
+            return 3;
+        } else {
+            return column;
+        }
     }
 
     function getReceipt() {

@@ -53,7 +53,7 @@
         <div id="itemList" class="itemList">
             <table class="itemTable">
                 <tr ng-repeat="item in buttons" ng-click="itemDelete(item.Schedule_ID, item.Seat_ID)"  id="{{item.itemID}}" >
-                    <td>{{item.Movie_Name}}</td><td class="amountCell">{{item.amount}}</td><td class="priceCell">{{(item.price * item.amount) | currency}}</td>
+                    <td>{{item.Movie_Name}}</td><td class="amountCell">{{ getSeat(item.Seat_ID) }}</td><td>{{item.Order_BuyDate}}</td><td class="priceCell">{{item.Order_AdjustedPrice | currency}}</td>
                 </tr>
             </table>
         </div>
