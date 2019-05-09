@@ -22,13 +22,13 @@
                     <span>
                         {{ movie.Movie_Name }}
                         {{ movieTime(movie.Movie_ID) }}
-                <p>Select time:</p>
-                <div  style="display:inline-block" ng-repeat="time in timePool">
-                    <button ng-click="" style="margin:10px">
-                        {{ getTimeByHours(time) }}
-                    </button>
-                </div>
-                </span>
+                        <p>Select time:</p>
+                        <div  style="display:inline-block" ng-repeat="time in timePool">
+                             <button ng-click="" style="margin:10px">
+                                {{ getTimeByHours(time) }}
+                            </button>
+                        </div>
+                    </span>
                 </p>
             </div>
             <!-- <table class="scheduleTable">
