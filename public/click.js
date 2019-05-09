@@ -121,10 +121,9 @@ function ButtonCtrl($scope, buttonApi) {
             });
     }
 
-    function itemDelete(id) {
+    function itemDelete(Sch_ID, Seat_ID) {
         $scope.errorMessage = '';
-
-        buttonApi.itemDelete(id)
+        buttonApi.itemDelete(Sch_ID, Seat_ID)
             .success(function () {
                 refreshButtons();
             })
@@ -209,8 +208,8 @@ function buttonApi($http, apiUrl) {
             var url = apiUrl + '/click?id=' + id;
             return $http.get(url);
         },
-        itemDelete: function (id) {
-            var url = apiUrl + '/delete?id=' + id;
+        itemDelete: function (Sche_ID, Seat_ID) {
+            var url = apiUrl + '/delete/' + Sche_ID + "/" + Seat_ID;
             return $http.get(url);
         },
         login: function (username, password){
