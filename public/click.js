@@ -5,8 +5,18 @@ angular.module('buttons', [])
 
 function ButtonCtrl($scope, buttonApi) {
     $scope.buttons = [];
+    $scope.movieList = [];
+    $scope.timeList = [];
+    $scope.timePool = [];
     $scope.errorMessage = '';
     $scope.isLoading = isLoading;
+    $scope.getMovieList = getMovieList;
+    $scope.getTimeList = getTimeList;
+    $scope.movieTime = movieTime;
+    $scope.getSeat = getSeat;
+    $scope.getRow = getRow;
+    $scope.getColumn = getColumn;
+    $scope.getTimeByHours = getTimeByHours;
     $scope.refreshButtons = refreshButtons;
     $scope.buttonClick = buttonClick;
     $scope.getTheSum = getTheSum;
@@ -25,8 +35,65 @@ function ButtonCtrl($scope, buttonApi) {
 
     var loading = false;
 
+    String.prototype.hashCode = function(){
+        var hash = 0;
+        for (var i = 0; i < this.length; i++) {
+            var character = this.charCodeAt(i);
+            hash = ((hash<<5)-hash)+character;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
+    };
+
     function isLoading() {
         return loading;
+    }
+
+    function getTimeByHours(time) {
+        return time.substring(11,19);
+    }
+    function movieTime(movieID) {
+        $scope.timePool = [];
+        var i = 0;
+        var j = 0;
+        while ($scope.timeList[i] != null) {
+            if ($scope.timeList[i].Movie_ID == movieID) {
+                $scope.timePool[j]=$scope.timeList[i].Schedule_BeginDateTime;
+                j++;
+            }
+            i++
+        }
+
+    }
+
+    function getMovieList() {
+        loading = true;
+        $scope.errorMessage = '';
+        buttonApi.getMovies()
+            .success(function (data) {
+                $scope.movieList = data;
+                loading = false;
+            })
+            .error(function () {
+                $scope.errorMessage = "Unable to load movieList: Databases request failed";
+                loading = false;
+            })
+    }
+
+    function getTimeList() {
+        loading = true;
+        $scope.errorMessage = '';
+        buttonApi.getTimes()
+            .success(function (data) {
+                $scope.timeList = data;
+                loading = false;
+                //console.log($scope.timeList);
+                //console.log(data);
+            })
+            .error(function () {
+                $scope.errorMessage = "Unable to load movieList: Databases request failed";
+                loading = false;
+            })
     }
 
     function refreshButtons() {
@@ -43,6 +110,38 @@ function ButtonCtrl($scope, buttonApi) {
             });
     }
 
+    function getSeat(seatID) {
+        if (seatID <=9) {
+            return getRow(Math.floor(seatID/3)) + " row " + getColumn(seatID%3) + " column at hall 1";
+        }
+        if (seatID > 9 && seatID <= 18) {
+            return getRow(Math.floor((seatID-9)/3)) + " row " + getColumn((seatID-9)%3) + " column at hall 2";
+        }
+        else {
+            return getRow(Math.floor((seatID-18)/3)) + " row " + getColumn((seatID-18)%3) + " column at hall 3";
+        }
+    }
+
+    function getRow(row) {
+        if (row == 0) {
+            return "A";
+        }
+        if (row == 1) {
+            return "B";
+        }
+        if (row == 3) {
+            return "C";
+        }
+    }
+
+    function getColumn(column) {
+        if (column == 0) {
+            return 3;
+        } else {
+            return column;
+        }
+    }
+
     function getReceipt() {
         loading = true;
         $scope.errorMessage = '';
@@ -57,19 +156,15 @@ function ButtonCtrl($scope, buttonApi) {
             });
     }
 
-    function itemDelete(id) {
+    function itemDelete(Sch_ID, Seat_ID) {
         $scope.errorMessage = '';
-
-        buttonApi.itemDelete(id)
+        buttonApi.itemDelete(Sch_ID, Seat_ID)
             .success(function () {
                 refreshButtons();
             })
             .error(function () {
                 $scope.errorMessage = "you cannot delete";
             })
-
-
-
     }
 
     function buttonClick($event) {
@@ -87,7 +182,8 @@ function ButtonCtrl($scope, buttonApi) {
     }
 
     refreshButtons();
-
+    getMovieList()
+    getTimeList();
 
     function getTheSum(list) {
         var sum = 0;
@@ -105,7 +201,6 @@ function ButtonCtrl($scope, buttonApi) {
                 }else{
                     $scope.activeUser = null;
                 }
-                console.log($scope.activeUser);
 
             })
             .error(function () {
@@ -132,16 +227,24 @@ function ButtonCtrl($scope, buttonApi) {
 
 function buttonApi($http, apiUrl) {
     return {
+        getMovies: function () {
+            var url = apiUrl + '/movieList';
+            return $http.get(url);
+        },
+        getTimes: function () {
+            var url = apiUrl + '/timeList';
+            return $http.get(url);
+        },
         getButtons: function () {
-            var url = apiUrl + '/schedule';
+            var url = apiUrl + '/cart';
             return $http.get(url);
         },
         clickButton: function (id) {
             var url = apiUrl + '/click?id=' + id;
             return $http.get(url);
         },
-        itemDelete: function (id) {
-            var url = apiUrl + '/delete?id=' + id;
+        itemDelete: function (Sche_ID, Seat_ID) {
+            var url = apiUrl + '/delete/' + Sche_ID + "/" + Seat_ID;
             return $http.get(url);
         },
         login: function (username, password){
@@ -158,6 +261,3 @@ function buttonApi($http, apiUrl) {
         }
     };
 }
-
-
-

@@ -24,8 +24,8 @@ app.post('/', function(req, res, next) {
 
 
 app.use(express.static(__dirname + '/public'));
-app.get("/schedule",function(req,res){
-    var sql = 'SELECT * FROM ' + database + '.Table_Schedule;';
+app.get("/movieList",function(req,res){
+    var sql = 'SELECT DISTINCT Movie_ID, Movie_Name, Movie_Url FROM ' + database + '.Table_Movie order by Movie_ID;';
     result = db.query(sql);
     result.then(function(rows){
         console.log(rows);
@@ -33,9 +33,29 @@ app.get("/schedule",function(req,res){
     });
 });
 
-app.get("/delete",function(req,res){
-    var id = req.param('id');
-    var sql = 'UPDATE MinecraftDB.items SET amount = amount - 1 WHERE itemID=' + id + ' AND amount > 0;';
+app.get("/timeList",function(req,res){
+    var movieId = req.param('movieID');
+    var sql = 'SELECT Table_Movie.Movie_ID, Table_Schedule.Schedule_BeginDateTime FROM ' + database + '.Table_Movie right join ' + database + '.Table_Schedule on Table_Movie.Movie_ID = Table_Schedule.Movie_ID order by Table_Movie.Movie_ID;';
+    result = db.query(sql);
+    result.then(function(rows){
+        console.log(rows);
+        res.send(rows);
+    });
+});
+
+app.get("/cart",function(req,res){
+    var sql = 'SELECT * FROM ' + database + '.Table_Cart;';
+    result = db.query(sql);
+    result.then(function(rows){
+        console.log(rows);
+        res.send(rows);
+    });
+});
+
+app.get("/delete/:scheid/:seatid",function(req,res){
+    var scheid = req.param('scheid');
+    var seatid = req.param('seatid');
+    var sql = 'DELETE FROM ' + database + '.Table_Cart WHERE Schedule_ID=' + scheid + ' AND Seat_ID=' + seatid + ';';
     console.log(sql);
     result = db.query(sql);
     result.then(function(rows){
@@ -65,7 +85,7 @@ app.get("/login/:username/:password", function(req, res){
 });
 
 app.get("/void", function(req, res){
-    var sql = 'UPDATE items SET amount = 0';
+    var sql = 'TRUNCATE TABLE ' + database + '.Table_Cart;';
     var result = db.query(sql);
     result.then(function(rows){
         res.send(true);
