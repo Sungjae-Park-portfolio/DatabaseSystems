@@ -32,6 +32,16 @@ function ButtonCtrl($scope, buttonApi) {
 
     var loading = false;
 
+    String.prototype.hashCode = function(){
+        var hash = 0;
+        for (var i = 0; i < this.length; i++) {
+            var character = this.charCodeAt(i);
+            hash = ((hash<<5)-hash)+character;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
+    };
+
     function isLoading() {
         return loading;
     }
@@ -139,7 +149,7 @@ function ButtonCtrl($scope, buttonApi) {
 
     refreshButtons();
     getMovieList()
-    getTimeList(1);
+    getTimeList();
 
     function getTheSum(list) {
         var sum = 0;
@@ -192,7 +202,7 @@ function buttonApi($http, apiUrl) {
             return $http.get(url);
         },
         getButtons: function () {
-            var url = apiUrl + '/schedule';
+            var url = apiUrl + '/cart';
             return $http.get(url);
         },
         clickButton: function (id) {

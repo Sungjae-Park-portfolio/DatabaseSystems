@@ -43,8 +43,8 @@ app.get("/timeList",function(req,res){
     });
 });
 
-app.get("/schedule",function(req,res){
-    var sql = 'SELECT * FROM ' + database + '.Table_Schedule;';
+app.get("/cart",function(req,res){
+    var sql = 'SELECT * FROM ' + database + '.Table_Cart;';
     result = db.query(sql);
     result.then(function(rows){
         console.log(rows);
@@ -84,7 +84,7 @@ app.get("/login/:username/:password", function(req, res){
 });
 
 app.get("/void", function(req, res){
-    var sql = 'UPDATE items SET amount = 0';
+    var sql = 'TRUNCATE TABLE ' + database + '.Table_Cart;';
     var result = db.query(sql);
     result.then(function(rows){
         res.send(true);
