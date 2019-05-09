@@ -24,9 +24,13 @@
                         <img ng-src="{{movie.Movie_Url}}" style="width:150px">
                     </span>
                     <span>
-                        {{movie.Movie_Name}}
-                        <div  style="display:inline-block" name="{{ movie.Movie_ID }}">
-                            {{ getTimeList(movie.Movie_ID) }} world
+                        {{ movie.Movie_Name }}
+                        {{ movieTime(movie.Movie_ID) }}
+                        <p>Select time:</p>
+                        <div  style="display:inline-block" ng-repeat="time in timePool">
+                             <button ng-click="" style="margin:10px">
+                                {{ getTimeByHours(time) }}
+                            </button>
                         </div>
                     </span>
                 </p>

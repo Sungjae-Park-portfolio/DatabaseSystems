@@ -7,10 +7,13 @@ function ButtonCtrl($scope, buttonApi) {
     $scope.buttons = [];
     $scope.movieList = [];
     $scope.timeList = [];
+    $scope.timePool = [];
     $scope.errorMessage = '';
     $scope.isLoading = isLoading;
     $scope.getMovieList = getMovieList;
     $scope.getTimeList = getTimeList;
+    $scope.movieTime = movieTime;
+    $scope.getTimeByHours = getTimeByHours;
     $scope.refreshButtons = refreshButtons;
     $scope.buttonClick = buttonClick;
     $scope.getTheSum = getTheSum;
@@ -33,6 +36,23 @@ function ButtonCtrl($scope, buttonApi) {
         return loading;
     }
 
+    function getTimeByHours(time) {
+        return time.substring(11,19);
+    }
+    function movieTime(movieID) {
+        $scope.timePool = [];
+        var i = 0;
+        var j = 0;
+        while ($scope.timeList[i] != null) {
+            if ($scope.timeList[i].Movie_ID == movieID) {
+                $scope.timePool[j]=$scope.timeList[i].Schedule_BeginDateTime;
+                j++;
+            }
+            i++
+        }
+
+    }
+
     function getMovieList() {
         loading = true;
         $scope.errorMessage = '';
@@ -40,7 +60,6 @@ function ButtonCtrl($scope, buttonApi) {
             .success(function (data) {
                 $scope.movieList = data;
                 loading = false;
-                console.log($scope.movieList + "hello");
             })
             .error(function () {
                 $scope.errorMessage = "Unable to load movieList: Databases request failed";
@@ -48,13 +67,15 @@ function ButtonCtrl($scope, buttonApi) {
             })
     }
 
-    function getTimeList(movieID) {
+    function getTimeList() {
         loading = true;
         $scope.errorMessage = '';
-        buttonApi.getTimes(movieID)
+        buttonApi.getTimes()
             .success(function (data) {
                 $scope.timeList = data;
                 loading = false;
+                //console.log($scope.timeList);
+                //console.log(data);
             })
             .error(function () {
                 $scope.errorMessage = "Unable to load movieList: Databases request failed";
@@ -118,7 +139,7 @@ function ButtonCtrl($scope, buttonApi) {
 
     refreshButtons();
     getMovieList()
-    //getTimeList(1);
+    getTimeList(1);
 
     function getTheSum(list) {
         var sum = 0;
@@ -166,8 +187,8 @@ function buttonApi($http, apiUrl) {
             var url = apiUrl + '/movieList';
             return $http.get(url);
         },
-        getTimes: function (movieID) {
-            var url = apiUrl + '/timeList/' + movieID;
+        getTimes: function () {
+            var url = apiUrl + '/timeList';
             return $http.get(url);
         },
         getButtons: function () {

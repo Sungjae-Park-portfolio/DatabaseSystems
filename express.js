@@ -25,7 +25,7 @@ app.post('/', function(req, res, next) {
 
 app.use(express.static(__dirname + '/public'));
 app.get("/movieList",function(req,res){
-    var sql = 'SELECT DISTINCT Movie_ID, Movie_Name, Movie_Url FROM ' + database + '.Table_Movie;';
+    var sql = 'SELECT DISTINCT Movie_ID, Movie_Name, Movie_Url FROM ' + database + '.Table_Movie order by Movie_ID;';
     result = db.query(sql);
     result.then(function(rows){
         console.log(rows);
@@ -33,9 +33,9 @@ app.get("/movieList",function(req,res){
     });
 });
 
-app.get("/timeList/:movieID",function(req,res){
+app.get("/timeList",function(req,res){
     var movieId = req.param('movieID');
-    var sql = 'SELECT Schedule_ID, Movie_ID, Hall_ID, Schedule_BeginDateTime FROM ' + database + '.Table_Schedule where Movie_ID = ' + movieId + ';';
+    var sql = 'SELECT Table_Movie.Movie_ID, Table_Schedule.Schedule_BeginDateTime FROM ' + database + '.Table_Movie right join ' + database + '.Table_Schedule on Table_Movie.Movie_ID = Table_Schedule.Movie_ID order by Table_Movie.Movie_ID;';
     result = db.query(sql);
     result.then(function(rows){
         console.log(rows);
@@ -73,7 +73,7 @@ app.get("/click", function(req, res){
     });
 });
 
-app.get("/login/:username/:password", function(req, res){m
+app.get("/login/:username/:password", function(req, res){
     var user = req.param('username');
     var pass = req.param('password');
     var sql = 'SELECT * FROM ' + database + '.login WHERE user_ID = "' + user + '" && user_PSWD = "' + pass + '"';
