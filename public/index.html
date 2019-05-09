@@ -10,18 +10,14 @@
 <body ng-app="buttons" ng-controller="buttonCtrl" >
 
 <div ng-if="!activeUser">
-    <div class="container-fluid">
-        <button id="logout" ng-click="logout()">Logout</button>
-        <button id="sale" ng-click="sale()">Already decided!</button>
-        <button id="void" ng-click="voidSale()">Empty movie list</button>
-    </div>
+
     <div class="container-fluid">
         <h1>Choose your movie here:</h1>
         <div id="scheduleList"  class="scheduleList">
             <div class="scheduleList" ng-repeat="movie in movieList">
                 <p>
                     <span>
-                        <img ng-src="{{movie.Movie_Url}}" style="width:150px">
+                        <img ng-src="{{movie.Movie_Url}}" style="height:180px">
                     </span>
                     <span>
                         {{ movie.Movie_Name }}
@@ -49,17 +45,23 @@
     </div>
 
     <div id="itemPriceList" class="itemPriceList">
-        <h3>Movie order list</h3>
+        <div class="container-fluid">
+            <button id="logout" ng-click="logout()">Logout</button>
+
+        </div>
+        <h3>Movie Ticket Cart</h3>
         <div id="itemList" class="itemList">
             <table class="itemTable">
-                <tr ng-repeat="item in buttons" ng-if="item.amount > 0" ng-click="itemDelete(item.itemID)"  id="{{item.itemID}}">
-                    <td>{{item.itemName}}</td><td class="amountCell">{{item.amount}}</td><td class="priceCell">{{(item.price * item.amount) | currency}}</td>
+                <tr ng-repeat="item in buttons"/> <!--ng-if="item.amount > 0" ng-click="itemDelete(item.itemID)"  id="{{item.itemID}}" -->
+                    <td>{{item.Movie_Name}}</td><td class="amountCell">{{item.amount}}</td><td class="priceCell">{{(item.price * item.amount) | currency}}</td>
                 </tr>
             </table>
         </div>
         <div id="totalRow" class="totalRow">
             <span class="totalHeader">Total:</span><span class="totalValue">{{getTheSum(buttons) | currency}}</span>
         </div>
+        <button id="void" ng-click="voidSale()" style="margin:8px;width:120px">Empty Cart</button>
+        <button id="sale" ng-click="sale()" style="margin:8px;width:120px;float:right">Pay Now!</button>
     </div>
     <div id="receipt" class="itemList" ng-if="receipt">
         <h2>Receipt</h2>
