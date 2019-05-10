@@ -92,16 +92,17 @@ app.get("/void", function(req, res){
     });
 });
 
-app.get("/addTicket/:name/:price"), function(req,res) {
+app.get("/addTicket/:name/:price", function(req,res) {
     var name = req.param('name');
     var price = req.param('price');
 
-    var sql = 'insert into Table_Cart values(2, 3, ' + price + ', null, ' + name + ', 1, null);';
+    var temp = name.replace("%20", " ");
+    var sql = 'insert into Table_Cart values(2, 3, ' + price + ', null, "' + name + '", 1, null);';
     var result = db.query(sql);
     result.then(function(rows){
         res.send(rows);
-    })
-}
+    });
+});
 
 app.get("/sale/:start/:end/:id", function(req, res){
     var sql = 'INSERT INTO archive (start, end, userId) VALUES (\'' + req.param("start") +'\',\'' + req.param("end") + '\',' + req.param("id") +')';
