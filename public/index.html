@@ -61,9 +61,9 @@
             <span class="totalHeader">Total:</span><span class="totalValue">{{getTheSum(buttons) | currency}}</span>
         </div>
         <button id="void" ng-click="voidSale()" style="margin:8px;width:120px">Empty Cart</button>
-        <button id="sale" ng-click="sale()" style="margin:8px;width:120px;float:right">Pay Now!</button>
+        <button id="sale" ng-click="getPop()" style="margin:8px;width:120px;float:right">Pay Now!</button>
     </div>
-    <div id="receipt" class="itemList" ng-if="receipt">
+    <!--<div id="receipt" class="itemList" ng-if="receipt">
         <h2>Receipt</h2>
         <table class="itemTable">
             <tr ng-repeat="item in receipt" ng-if="item.amount > 0" ng-click="itemDelete(item.itemID)"  id="{{item.itemID}}">
@@ -73,7 +73,7 @@
         <div id="receiptRow" class="totalRow">
             <span class="totalHeader">Total:</span><span class="totalValue">{{getTheSum(receipt) | currency}}</span>
         </div>
-    </div>
+    </div> -->
 </div>
 <div ng-if="activeUser">
     <ng-form>

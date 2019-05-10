@@ -3,7 +3,8 @@ angular.module('buttons', [])
     .factory('buttonApi', buttonApi)
     .constant('apiUrl', 'http://localhost:1337');
 
-function ButtonCtrl($scope, buttonApi) {
+
+function ButtonCtrl($scope, $window, buttonApi) {
     $scope.buttons = [];
     $scope.movieList = [];
     $scope.timeList = [];
@@ -16,6 +17,7 @@ function ButtonCtrl($scope, buttonApi) {
     $scope.getSeat = getSeat;
     $scope.getRow = getRow;
     $scope.getColumn = getColumn;
+    $scope.simpleHash = simpleHash;
     $scope.getTimeByHours = getTimeByHours;
     $scope.refreshButtons = refreshButtons;
     $scope.buttonClick = buttonClick;
@@ -35,15 +37,13 @@ function ButtonCtrl($scope, buttonApi) {
 
     var loading = false;
 
-    String.prototype.hashCode = function(){
-        var hash = 0;
-        for (var i = 0; i < this.length; i++) {
-            var character = this.charCodeAt(i);
-            hash = ((hash<<5)-hash)+character;
-            hash = hash & hash; // Convert to 32bit integer
+    function simpleHash(s, tableSize) {
+        var i, hash = 0;
+        for (i = 0; i < s.length; i++) {
+            hash += (s[i].charCodeAt() * (i+1));
         }
-        return hash;
-    };
+        return Math.abs(hash) % tableSize;
+    }
 
     function isLoading() {
         return loading;
@@ -222,6 +222,16 @@ function ButtonCtrl($scope, buttonApi) {
         buttonApi.voidSale();
         $scope.startTime = 0;
         refreshButtons();
+    }
+
+    $scope.getPop = function() {
+        var i = 0;
+        var temp = "";
+        while ($scope.buttons[i] != null) {
+            temp = temp + $scope.buttons[i].Movie_Name;
+            i++;
+        }
+        $window.alert(temp);
     }
 }
 
