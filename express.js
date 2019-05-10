@@ -25,7 +25,7 @@ app.post('/', function(req, res, next) {
 
 app.use(express.static(__dirname + '/public'));
 app.get("/movieList",function(req,res){
-    var sql = 'SELECT DISTINCT Movie_ID, Movie_Name, Movie_Url FROM ' + database + '.Table_Movie order by Movie_ID;';
+    var sql = 'SELECT * FROM ' + database + '.Table_Movie order by Movie_ID;';
     result = db.query(sql);
     result.then(function(rows){
         console.log(rows);

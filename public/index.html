@@ -7,42 +7,54 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
     <script src="click.js"></script>
 </head>
-<body ng-app="buttons" ng-controller="buttonCtrl" >
+<body ng-app="buttons" ng-controller="buttonCtrl">
 
-<div ng-if="!activeUser">
-
+<div ng-if="activeUser">
     <div class="container-fluid">
         <h1>Choose your movie here:</h1>
-        <div id="scheduleList"  class="scheduleList">
+        <div id="scheduleList" class="scheduleList">
             <div class="scheduleList" ng-repeat="movie in movieList">
-                <p>
-                    <span>
-                        <img ng-src="{{movie.Movie_Url}}" style="height:180px">
-                    </span>
-                    <span>
-                        {{ movie.Movie_Name }}
-                        {{ movieTime(movie.Movie_ID) }}
-                        <p>Select time:</p>
-                        <div  style="display:inline-block" ng-repeat="time in timePool">
-                             <button ng-click="" style="margin:10px">
+                <span>
+                    <figure>
+                        <p><img ng-src="{{movie.Movie_Url}}" style="height:180px" border="white"></p>
+                        <figcaption>{{ movie.Movie_Name }}</figcaption>
+                    </figure>
+                    <div>
+                        <div class="movieDesc">
+                            <p>Description for this movie:</p>
+                            <p>Director: {{ movie.Movie_Director}}</p>
+                            <p>Main actors: {{ movie.Movie_MainActor}}</p>
+                            <p>Runtime:{{ movie.Movie_Duration}}</p>
+                            <p>Genre: {{ movie.Movie_Description}}</p>
+                        </div>
+                        {{ movieTime(movie.Movie_ID)}}
+                        <p id="selectTime">Select time:</p>
+                        <div style="display:inline-block" ng-repeat="time in timePool">
+                             <button ng-click="" style="margin:10px" id="timeButton">
                                 {{ getTimeByHours(time) }}
                             </button>
                         </div>
-                    </span>
-                </p>
+                    </div>
+                </span>
             </div>
-            <!-- <table class="scheduleTable">
-                <tr ng-repeat="item in buttons"  id="{{item.Schedule_ID}}">
-                    <td>{{item.Movie_ID}}</td><td >{{item.Hall_ID}}</td><td >$ {{item.Schedule_Price}}</td><td >{{item.Schedule_BeginDateTime}}</td><button ng-click="buttonClick($event,'button.')">Select seats</button>
-                </tr>
-            </table> -->
-            <div style="position:fixed;height:50px;bottom:0px;left:0px;right:0px;margin-bottom:0px"} ng-show="errorMessage != ''">
-                <div class="col-sm-12">
-                    <h3 class="text-danger">{{errorMessage}}</h3>
-                </div>
+        </div>
+
+        <!-- <table class="scheduleTable">
+            <tr ng-repeat="item in buttons"  id="{{item.Schedule_ID}}">
+                <td>{{item.Movie_ID}}</td><td >{{item.Hall_ID}}</td><td >$ {{item.Schedule_Price}}</td><td >{{item.Schedule_BeginDateTime}}</td><button ng-click="buttonClick($event,'button.')">Select seats</button>
+            </tr>
+        </table> -->
+        <div style="position:fixed;height:50px;bottom:0px;left:0px;right:0px;margin-bottom:0px" }
+             ng-show="errorMessage != ''">
+            <div class="col-sm-12">
+                <h3 class="text-danger">{{errorMessage}}</h3>
             </div>
         </div>
     </div>
+
+
+
+
 
     <div id="itemPriceList" class="itemPriceList">
         <div class="container-fluid">
@@ -52,8 +64,11 @@
         <h3>Movie Ticket Cart</h3>
         <div id="itemList" class="itemList">
             <table class="itemTable">
-                <tr ng-repeat="item in buttons" ng-click="itemDelete(item.Schedule_ID, item.Seat_ID)"  id="{{item.itemID}}" >
-                    <td>{{item.Movie_Name}}</td><td class="amountCell">{{ getSeat(item.Seat_ID) }}</td><td>{{item.Order_BuyDate}}</td><td class="priceCell">{{item.Order_AdjustedPrice | currency}}</td>
+                <tr ng-repeat="item in buttons" ng-click="itemDelete(item.Schedule_ID, item.Seat_ID)" id="{{item.itemID}}">
+                    <td>{{item.Movie_Name}}</td>
+                    <td class="amountCell">{{ getSeat(item.Seat_ID) }}</td>
+                    <td>{{item.Order_BuyDate}}</td>
+                    <td class="priceCell">{{item.Order_AdjustedPrice | currency}}</td>
                 </tr>
             </table>
         </div>
@@ -66,26 +81,45 @@
     <div id="receipt" class="itemList" ng-if="receipt">
         <h2>Receipt</h2>
         <table class="itemTable">
-            <tr ng-repeat="item in receipt" ng-if="item.amount > 0" ng-click="itemDelete(item.itemID)"  id="{{item.itemID}}">
-                <td>{{item.itemName}}</td><td class="amountCell">{{item.amount}}</td><td class="priceCell">{{(item.price * item.amount) | currency}}</td>
+            <tr ng-repeat="item in receipt" ng-if="item.amount > 0" ng-click="itemDelete(item.itemID)" id="{{item.itemID}}">
+                <td>{{item.itemName}}</td>
+                <td class="amountCell">{{item.amount}}</td>
+                <td class="priceCell">{{(item.price * item.amount) | currency}}</td>
             </tr>
         </table>
         <div id="receiptRow" class="totalRow">
             <span class="totalHeader">Total:</span><span class="totalValue">{{getTheSum(receipt) | currency}}</span>
         </div>
     </div>
+
+
+
+
+
+
 </div>
-<div ng-if="activeUser">
+
+
+
+
+
+<div ng-if="!activeUser" class="loginInterface">
+    <img src="https://us.123rf.com/450wm/captainvector/captainvector1512/captainvector151209783/81484704-user-icon.jpg?ver=6" class="userIcon">
     <ng-form>
+        <p>
         <label>Username: <input type="text" ng-model="username"/></label>
+        </p>
+        <p>
         <label>Password: <input type="password" ng-model="password"/></label>
-        <input type="submit" ng-click="login(username, password)"/>
+        </p>
+        <p>
+        <input type="submit" ng-click="login(username, password)" id="submit"/>
+        </p>
     </ng-form>
 </div>
 
 
 </body>
-
 
 
 </html>
