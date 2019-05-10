@@ -271,6 +271,3 @@ function buttonApi($http, apiUrl) {
         }
     };
 }
-
-
-
