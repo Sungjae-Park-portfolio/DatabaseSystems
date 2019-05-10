@@ -168,7 +168,7 @@ mooApp.controller('boo', function($scope, rowCalc) {
     this.bookSeats = function(obj) {
       var data = angular.toJson(obj);
       console.log(data);
-      var url = apiUrl + '/bookSeats/' + data;
+      var url = apiUrl + '/bookSeats/' + obj;
       console.log(url);
       return $http.get(url);
     }
