@@ -1,122 +1,16 @@
 
-div.itemPriceList{
-    position:fixed;
-    right:0;
-    top: 20px;
-    padding-right:1cm;
-    width: 400px;
-    height:100%;
-}
-div.itemList {
-    height: 50%;
-    background: burlywood;
-    border:2px solid black;
-    right-margin:1cm;
-    font-size:14pt;
-    padding-left: 10px;
-    padding-right:10px;
-    padding-top:10px;
-}
-
-.userIcon{
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    position: absolute;
-    top:-50px;
-    left:calc(50% - 50px);
-}
-
-div.loginInterface {
-    border: 2px solid white;
-    font-size: 20pt;
-    width:320px;
-    height:420px;
-    background:darkseagreen;
-    color: #fff;
-    top: 50%;
-    left: 50%;
-    position:absolute;
-    box-sizing: border-box;
-    transform: translate(-50%,-50%);
-    padding:70px 30px;
-}
-
-#logout,#void,#sale{
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-}
-
-div.errorMsg{
-    position:fixed;height:50px;bottom:0px;left:0px;right:0px;margin-bottom:0px;
-    font-size:12pt;
-}
-
-div.buttonHolder{
-    font-size:14pt;
-}
-
-table.itemTable{
-    width:100%;
-}
-
-
-table.itemTable tr:nth-child(odd) td{
-    background-color:burlywood;
-}
-
-table.itemTable tr:hover td{
-    cursor:pointer;
-//  cursor:url('https://openclipart.org/image/250px/svg_to_png/68/Andy-Trash-Can.png');
-    background-color:#f99;
-}
-
-td.priceCell{
-    text-align:right;
-    font-family:monospace;
-}
-
-td.amountCell{
-    text-align:right;
-    font-family:monospace;
-}
-div.totalRow{
-    font-size:20pt;
-    font-weight:bold;
-    background-color:darkseagreen;
-    border:2px solid black;
-}
-.totalValue{
-    float:right;
-    text-align:right;
-    padding-right:5px;
-}
-.itemButton{
-    width:100px;
-    height:40px;
-}
-
-#receipt{
-    width: 400px !important;
-    margin-top: 500px !important;
-}
-
-
 a {
+    margin:auto;
   text-decoration: none;
-  width: 21px;
+  width: 10%;
+    left:50%;
   height: 21px;
   border-radius: 4px;
   padding: 6px;
   line-height: 21px;
   cursor: default;
+
+
 }
 
 a:hover,
@@ -150,11 +44,12 @@ a.available:hover {
 
 a.blocked,
 a.blocked:hover {
-  background: #eaeaea;
-  color: #aaa;
-  box-shadow: 0;
-  cursor: default;
-  border: 0;
+    background: #eaeaea;
+    color: #aaa;
+    box-shadow: 0;
+    cursor: default;
+    border: 0;
+}
 
 #submit{
     border:none;
@@ -197,6 +92,6 @@ figure {
 
 
 body {
-    background-image: url("https://backgroundcheckall.com/wp-content/uploads/2018/10/garden-background-png-4.png");
+    background-image: url("http://pic1.win4000.com/wallpaper/2018-09-11/5b977626c9feb.jpg");
 
 }
