@@ -24,6 +24,7 @@ function ButtonCtrl($scope, $window, buttonApi) {
     $scope.getTheSum = getTheSum;
     $scope.itemDelete = itemDelete;
     $scope.activeUser;
+    $scope.vip;
     $scope.startTime = 0;
 
     $scope.logout = logout;
