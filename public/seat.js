@@ -177,6 +177,7 @@ mooApp.controller('boo', function($scope, rowCalc) {
 
     this.getSeats = function(id) {
       var url = apiUrl + '/seat/' + id;
+      console.log(url);
       return $http.get(url);
     }
 

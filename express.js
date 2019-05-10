@@ -46,7 +46,7 @@ app.get("/bookSeats/:checkedSeat", function(req, res) {
 
 app.get("/seat/:id", function(req, res) {
     var id = req.param('id');
-    var sql = 'SELECT * FROM ' + database + '.Schedule_1 order by Seat_Row;';
+    var sql = 'SELECT * FROM ' + database + '.Schedule_' + id + ' order by Seat_Row;';
     result = db.query(sql);
     result.then(function(rows) {
         console.log(rows);
