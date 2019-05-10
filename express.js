@@ -33,10 +33,19 @@ app.get("/schedule", function(req, res) {
   });
 });
 
+app.get("/schID", function(req, res) {
+    var sql = 'SELECT Schedule_ID FROM ' + database + '.Table_Cart where Seat_ID = null;';
+    result = db.query(sql);
+    result.then(function(rows) {
+        console.log(rows);
+        res.send(rows);
+    });
+});
+
 app.get("/bookSeats/:checkedSeat", function(req, res) {
   var checkedSeat = req.param('checkedSeat');
   console.log(checkedSeat);
-  var sql = 'bookSeats(' + checkedSeat + ')';
+  var sql = 'call bookSeat("'+ checkedSeat + '")';
   result = db.query(sql);
   result.then(function(rows) {
     console.log(rows);
@@ -46,7 +55,7 @@ app.get("/bookSeats/:checkedSeat", function(req, res) {
 
 app.get("/seat/:id", function(req, res) {
   var id = req.param('id');
-  var sql = 'SELECT * FROM ' + database + '.Table_Seat WHERE Hall_ID = 1 order by Seat_Row;';
+  var sql = 'SELECT * FROM ' + database + '.Schedule_' + id + ' order by Seat_ID;';
   result = db.query(sql);
   result.then(function(rows) {
     console.log(rows);

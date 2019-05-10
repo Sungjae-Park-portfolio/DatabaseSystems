@@ -56,6 +56,7 @@ mooApp.controller('boo', function($scope, rowCalc) {
     $scope.errorMessage = '';
     $scope.rowLetter = [];
     $scope.count = 0;
+    $scope.id = 0;
     $scope.confirmButton = confirmButton;
 
     var loading = false;
@@ -76,19 +77,32 @@ mooApp.controller('boo', function($scope, rowCalc) {
       }
 
     }
+/*
+    function getSchID(){
+        loading = true;
+        $scope.errorMessage = '';
+        rowCalc.getID()
+            .success(function(data) {
+                $scope.id = data;
+                console.log($scope.id);
+                loading = false;
+    })
+    }
+*/
 
     function getSeatMap() {
       loading = true;
-      var id = 1;
+      $scope.id = 1;
+      console.log($scope.id);
       var temp = [];
       $scope.errorMessage = '';
-      rowCalc.getSeats(id)
+      rowCalc.getSeats($scope.id)
         .success(function(data) {
           temp = data;
           var rowName = [];
           var j = 0;
           var count = 0;
-          rowName.push(temp[j].Seat_Row);
+          rowName.push(temp[0].Seat_Row);
           for (var i = 1; i < temp.length; i++) {
             if (temp[i].Seat_Available == 1) {
               count++;
@@ -155,6 +169,7 @@ mooApp.controller('boo', function($scope, rowCalc) {
       rowCalc.bookSeats(checkedSeat);
     }
 
+    //getSchID();
     getSeatMap();
 
   })
@@ -166,12 +181,16 @@ mooApp.controller('boo', function($scope, rowCalc) {
     }
 
     this.bookSeats = function(obj) {
-      var data = angular.toJson(obj);
-      console.log(data);
       var url = apiUrl + '/bookSeats/' + obj;
       console.log(url);
       return $http.get(url);
     }
+
+      this.getID = function() {
+          var url = apiUrl + '/schID';
+          console.log(url);
+          return $http.get(url);
+      }
 
   })
   .constant('apiUrl', 'http://localhost:1337');
