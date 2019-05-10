@@ -108,6 +108,54 @@ div.totalRow{
     margin-top: 500px !important;
 }
 
+
+a {
+  text-decoration: none;
+  width: 21px;
+  height: 21px;
+  border-radius: 4px;
+  padding: 6px;
+  line-height: 21px;
+  cursor: default;
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.selected {
+  background: blue;
+  color: white;
+  border: 0;
+}
+
+a.available {
+  color: blue;
+  border: 1px solid blue;
+  border-radius: 4px;
+}
+
+a.blocked {
+  color: grey;
+  border: 1px solid grey;
+  border-radius: 4px;
+}
+
+a.available:hover {
+  color: white;
+  background: blue;
+}
+
+a.blocked,
+a.blocked:hover {
+  background: #eaeaea;
+  color: #aaa;
+  box-shadow: 0;
+  cursor: default;
+  border: 0;
+
 #submit{
     border:none;
     outline: none;
@@ -150,4 +198,5 @@ figure {
 
 body {
     background-image: url("https://backgroundcheckall.com/wp-content/uploads/2018/10/garden-background-png-4.png");
+
 }

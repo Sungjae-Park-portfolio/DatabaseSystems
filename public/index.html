@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
     <script src="click.js"></script>
+    <script src="seat.js"></script>
 </head>
 <body ng-app="buttons" ng-controller="buttonCtrl">
 
@@ -50,6 +51,39 @@
                 <h3 class="text-danger">{{errorMessage}}</h3>
             </div>
         </div>
+      
+      
+      
+        <div class="content" ng-app="mooApp" ng-controller="boo">
+        <div class="row col-md-4 col-md-offset-3">
+          <p>
+            Number of tickets:
+          </p>
+          <select ng-model="selectedVal" ng-options="i for i in quantities"></select>
+        </div>
+        <div>
+          <div>
+            <div class="table-responsive">
+              <table class="table">
+                <tbody class="table">
+                  <tr ng-repeat="row in seats">
+                    <span>{{rowLetter[$index]}}</span>
+                    <td ng-repeat="item in row">
+                      <a class="available" ng-disabled="isDisabled" ng-class="{'selected': item.Seat_Check == true,'available': item.Seat_Check == false, 'blocked': item.Seat_Available == false}" ng-click="clickSeat(item)">{{item.Seat_Column}}</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              {{rows | json}}
+              <p>total Seats you can select = {{selectedVal}}</p>
+              <p>{{rowLetter}}</p>
+              <p>whether the selection of seats should be disabled or not = {{isDisabled}}</p>
+              <p>Seats selected: {{selectedSeatCount}}</p>
+            </div>
+            <button class="confirm-button" id="confirm-button" ng-click="confirmButton()"> Add to Cart </button>
+          </div>
+        </div>
+      </div>
     </div>
 
 
@@ -89,7 +123,7 @@
         </table>
         <div id="receiptRow" class="totalRow">
             <span class="totalHeader">Total:</span><span class="totalValue">{{getTheSum(receipt) | currency}}</span>
-        </div>
+        </div> -->
 
 </div>
 

@@ -1,7 +1,7 @@
 angular.module('buttons', [])
-    .controller('buttonCtrl', ButtonCtrl)
-    .factory('buttonApi', buttonApi)
-    .constant('apiUrl', 'http://localhost:1337');
+  .controller('buttonCtrl', ButtonCtrl)
+  .factory('buttonApi', buttonApi)
+  .constant('apiUrl', 'http://localhost:1337');
 
 
 function ButtonCtrl($scope, $window, buttonApi) {
@@ -167,31 +167,45 @@ function ButtonCtrl($scope, $window, buttonApi) {
             })
     }
 
-    function buttonClick($event) {
-        $scope.errorMessage = '';
-        if($scope.startTime === 0){
-            $scope.startTime = Date.now();
-        }
-        buttonApi.clickButton($event.target.id)
-            .success(function () {
-                refreshButtons();
-            })
-            .error(function () {
-                $scope.errorMessage = "Unable click";
-            });//make sure the buttons are loaded
+  function buttonClick($event) {
+    $scope.errorMessage = '';
+    if ($scope.startTime === 0) {
+      $scope.startTime = Date.now();
     }
+    buttonApi.clickButton($event.target.id)
+      .success(function() {
+        refreshButtons();
+      })
+      .error(function() {
+        $scope.errorMessage = "Unable click";
+      }); //make sure the buttons are loaded
+  }
 
-    refreshButtons();
+  refreshButtons();
+  getSeatMap();
+
+  function getTheSum(list) {
+    var sum = 0;
+    list.forEach(function(item) {
+      sum += (item.amount * item.price);
+    });
+    return sum;
+  }
+
+  function sale() {
+    $scope.receipt = getReceipt()
+    buttonApi.sale($scope.startTime, Date.now(), $scope.activeUser);
+    $scope.receipt = angular.element(document.querySelector("#itemList"));
+    $scope.startTime = 0;
+    refreshButtons()
     getMovieList()
     getTimeList();
 
-    function getTheSum(list) {
-        var sum = 0;
-        list.forEach(function (item) {
-            sum += (item.amount * item.price);
-        });
-        return sum;
-    }
+  function logout() {
+    console.log($scope.activeUser);
+    $scope.activeUser = null;
+  }
+
 
     function login(username, password){
         buttonApi.login(username, password)
@@ -271,3 +285,4 @@ function buttonApi($http, apiUrl) {
         }
     };
 }
+
