@@ -19,6 +19,7 @@ function ButtonCtrl($scope, $window, buttonApi) {
     $scope.getColumn = getColumn;
     $scope.simpleHash = simpleHash;
     $scope.getTimeByHours = getTimeByHours;
+    $scope.addTicket = addTicket;
     $scope.refreshButtons = refreshButtons;
     $scope.buttonClick = buttonClick;
     $scope.getTheSum = getTheSum;
@@ -226,6 +227,10 @@ function ButtonCtrl($scope, $window, buttonApi) {
         $scope.startTime = 0;
         refreshButtons();
     }
+    function addTicket(name, price) {
+        buttonApi.addTicket(name, price);
+        refreshButtons();
+    }
 
     $scope.getPop = function() {
         var i = 0;
@@ -250,6 +255,10 @@ function buttonApi($http, apiUrl) {
         },
         getButtons: function () {
             var url = apiUrl + '/cart';
+            return $http.get(url);
+        },
+        addTicket: function (name, price) {
+            var url = apiUrl + '/addTicket/' + name + "/" + price;
             return $http.get(url);
         },
         clickButton: function (id) {

@@ -30,8 +30,8 @@
                         {{ movieTime(movie.Movie_ID)}}
                         <p id="selectTime">Select time:</p>
                         <div style="display:inline-block" ng-repeat="time in timePool">
-                             <button ng-click="" style="margin:10px" id="timeButton">
-                                {{ getTimeByHours(time) }}
+                             <button ng-click="addTicket(movie.Movie_Name, movie.Movie_Price)" style="margin:10px" id="timeButton">
+                                 {{ getTimeByHours(time) }}
                             </button>
                         </div>
                     </div>
