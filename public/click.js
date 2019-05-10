@@ -1,7 +1,7 @@
 angular.module('buttons', [])
-  .controller('buttonCtrl', ButtonCtrl)
-  .factory('buttonApi', buttonApi)
-  .constant('apiUrl', 'http://localhost:1337');
+    .controller('buttonCtrl', ButtonCtrl)
+    .factory('buttonApi', buttonApi)
+    .constant('apiUrl', 'http://localhost:1337');
 
 
 function ButtonCtrl($scope, $window, buttonApi) {
@@ -24,6 +24,7 @@ function ButtonCtrl($scope, $window, buttonApi) {
     $scope.getTheSum = getTheSum;
     $scope.itemDelete = itemDelete;
     $scope.activeUser;
+    $scope.vip;
     $scope.startTime = 0;
 
     $scope.logout = logout;
@@ -156,9 +157,9 @@ function ButtonCtrl($scope, $window, buttonApi) {
             });
     }
 
-    function itemDelete(Sch_ID, Seat_ID) {
+    function itemDelete(Sch_ID, Item_ID) {
         $scope.errorMessage = '';
-        buttonApi.itemDelete(Sch_ID, Seat_ID)
+        buttonApi.itemDelete(Sch_ID, Item_ID)
             .success(function () {
                 refreshButtons();
             })
@@ -167,45 +168,31 @@ function ButtonCtrl($scope, $window, buttonApi) {
             })
     }
 
-  function buttonClick($event) {
-    $scope.errorMessage = '';
-    if ($scope.startTime === 0) {
-      $scope.startTime = Date.now();
+    function buttonClick($event) {
+        $scope.errorMessage = '';
+        if($scope.startTime === 0){
+            $scope.startTime = Date.now();
+        }
+        buttonApi.clickButton($event.target.id)
+            .success(function () {
+                refreshButtons();
+            })
+            .error(function () {
+                $scope.errorMessage = "Unable click";
+            });//make sure the buttons are loaded
     }
-    buttonApi.clickButton($event.target.id)
-      .success(function() {
-        refreshButtons();
-      })
-      .error(function() {
-        $scope.errorMessage = "Unable click";
-      }); //make sure the buttons are loaded
-  }
 
-  refreshButtons();
-  getSeatMap();
-
-  function getTheSum(list) {
-    var sum = 0;
-    list.forEach(function(item) {
-      sum += (item.amount * item.price);
-    });
-    return sum;
-  }
-
-  function sale() {
-    $scope.receipt = getReceipt()
-    buttonApi.sale($scope.startTime, Date.now(), $scope.activeUser);
-    $scope.receipt = angular.element(document.querySelector("#itemList"));
-    $scope.startTime = 0;
-    refreshButtons()
+    refreshButtons();
     getMovieList()
     getTimeList();
 
-  function logout() {
-    console.log($scope.activeUser);
-    $scope.activeUser = null;
-  }
-
+    function getTheSum(list) {
+        var sum = 0;
+        list.forEach(function (item) {
+            sum += (item.Order_AdjustedPrice);
+        });
+        return sum;
+    }
 
     function login(username, password){
         buttonApi.login(username, password)
@@ -226,11 +213,13 @@ function ButtonCtrl($scope, $window, buttonApi) {
         $scope.activeUser = null;
     }
     function sale(){
-        $scope.receipt = getReceipt()
-        buttonApi.sale($scope.startTime, Date.now(), $scope.activeUser);
-        $scope.receipt = angular.element( document.querySelector( "#itemList"));
-        $scope.startTime = 0;
-        refreshButtons();
+        //$scope.receipt = getReceipt()
+        //buttonApi.sale($scope.startTime, Date.now(), $scope.activeUser);
+        //$scope.receipt = angular.element( document.querySelector( "#itemList"));
+        $scope.getPop();
+        $scope.voidSale();
+        //$scope.startTime = 0;
+        //refreshButtons();
     }
     function voidSale(){
         buttonApi.voidSale();
@@ -240,9 +229,9 @@ function ButtonCtrl($scope, $window, buttonApi) {
 
     $scope.getPop = function() {
         var i = 0;
-        var temp = "";
+        var temp = "You have purchased:\n";
         while ($scope.buttons[i] != null) {
-            temp = temp + $scope.buttons[i].Movie_Name;
+            temp = temp + $scope.buttons[i].Movie_Name + "\n";
             i++;
         }
         $window.alert(temp);
@@ -267,8 +256,8 @@ function buttonApi($http, apiUrl) {
             var url = apiUrl + '/click?id=' + id;
             return $http.get(url);
         },
-        itemDelete: function (Sche_ID, Seat_ID) {
-            var url = apiUrl + '/delete/' + Sche_ID + "/" + Seat_ID;
+        itemDelete: function (Sche_ID, Item_ID) {
+            var url = apiUrl + '/delete/' + Sche_ID + "/" + Item_ID;
             return $http.get(url);
         },
         login: function (username, password){
@@ -285,4 +274,3 @@ function buttonApi($http, apiUrl) {
         }
     };
 }
-
