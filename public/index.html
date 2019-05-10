@@ -64,19 +64,23 @@
         <h3>Movie Ticket Cart</h3>
         <div id="itemList" class="itemList">
             <table class="itemTable">
-                <tr ng-repeat="item in buttons" ng-click="itemDelete(item.Schedule_ID, item.Seat_ID)" id="{{item.itemID}}">
+                <tr>
+                    <td>Movie Name</td>
+                    <td></td>
+                    <td style="text-align:right">Price</td>
+                </tr>
+                <tr ng-repeat="item in buttons" ng-click="itemDelete(item.Schedule_ID, item.Item_ID)" id="{{item.itemID}}">
                     <td>{{item.Movie_Name}}</td>
-                    <td class="amountCell">{{ getSeat(item.Seat_ID) }}</td>
                     <td>{{item.Order_BuyDate}}</td>
                     <td class="priceCell">{{item.Order_AdjustedPrice | currency}}</td>
                 </tr>
             </table>
         </div>
         <div id="totalRow" class="totalRow">
-            <span class="totalHeader">Total:</span><span class="totalValue">{{getTheSum(buttons) | currency}}</span>
+            <span class="totalHeader">Total:</span><span class="totalValue">{{ getTheSum(buttons) | currency}}</span>
         </div>
         <button id="void" ng-click="voidSale()" style="margin:8px;width:120px">Empty Cart</button>
-        <button id="sale" ng-click="getPop()" style="margin:8px;width:120px;float:right">Pay Now!</button>
+        <button id="sale" ng-click="sale()" style="margin:8px;width:120px;float:right">Pay Now!</button>
     </div>
     <!--<div id="receipt" class="itemList" ng-if="receipt">
         <h2>Receipt</h2>
@@ -107,7 +111,8 @@
         <label>Password: <input type="password" ng-model="password"/></label>
         </p>
         <p>
-        <input type="submit" ng-click="login(username, password)" id="submit"/>
+            <input type="submit" ng-click="login(username, password)" id="submit"/>
+            <input style="float:right" type="submit" value="login as guest" ng-click="login('guest', 'password')" id="submit"/>
         </p>
     </ng-form>
 </div>
